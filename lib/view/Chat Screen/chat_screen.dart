@@ -7,8 +7,10 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ChatScreen extends StatefulWidget {
+  final String? title;
   const ChatScreen({
     super.key,
+    this.title,
   });
 
   @override
@@ -134,20 +136,22 @@ class _ChatScreenState extends State<ChatScreen> {
               Row(
                 children: [
                   Expanded(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
-                      child: TextFormField(
-                        keyboardType: TextInputType.text,
-                        controller: messageController,
-                        decoration: const InputDecoration(
-                            contentPadding: EdgeInsets.only(left: 20),
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                              color: Colors.black,
-                              width: 3,
-                            )),
-                            floatingLabelBehavior: FloatingLabelBehavior.never),
-                      ),
+                    child: TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
+                      keyboardType: TextInputType.text,
+                      controller: messageController,
+                      decoration: const InputDecoration(
+                          contentPadding: EdgeInsets.only(left: 20),
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                            color: Colors.black,
+                          )),
+                          floatingLabelBehavior: FloatingLabelBehavior.never),
                     ),
                   ),
                   SizedBox(

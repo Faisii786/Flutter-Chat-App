@@ -18,6 +18,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool isloading = false;
+
   @override
   Widget build(BuildContext context) {
     AuthServices authServices = AuthServices();
@@ -36,6 +38,9 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     Future userLogin() async {
+      setState(() {
+        isloading = true;
+      });
       try {
         await authServices.userlogin(
             email: emailController.text.toString(),
@@ -43,11 +48,18 @@ class _LoginScreenState extends State<LoginScreen> {
         emailController.clear();
         passwordController.clear();
         Get.snackbar('Success', 'Successfully Login');
+
         Get.to(() => const ChatScreen(),
             transition: Transition.fade, duration: const Duration(seconds: 2));
       } catch (e) {
         Get.snackbar('Error', '$e');
+        setState(() {
+          isloading = false;
+        });
       }
+      setState(() {
+        isloading = false;
+      });
     }
 
     return Scaffold(
@@ -81,6 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: height * 0.02,
                 ),
                 CustomButton(
+                    isloading: isloading,
                     title: 'Login',
                     ontap: () async {
                       await userLogin();

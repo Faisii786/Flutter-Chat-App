@@ -16,6 +16,8 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
+  bool isloading = false;
+
   @override
   Widget build(BuildContext context) {
     AuthServices authServices = AuthServices();
@@ -36,6 +38,9 @@ class _SignupScreenState extends State<SignupScreen> {
     }
 
     Future createUser() async {
+      setState(() {
+        isloading = true;
+      });
       try {
         await authServices.userSignUp(
             name: nameController.text.toString(),
@@ -49,7 +54,13 @@ class _SignupScreenState extends State<SignupScreen> {
             transition: Transition.fade, duration: const Duration(seconds: 2));
       } catch (e) {
         Get.snackbar('Error', '$e');
+        setState(() {
+          isloading = false;
+        });
       }
+      setState(() {
+        isloading = false;
+      });
     }
 
     return Scaffold(
@@ -92,6 +103,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   height: height * 0.02,
                 ),
                 CustomButton(
+                    isloading: isloading,
                     title: 'SingUp',
                     ontap: () async {
                       await createUser();
