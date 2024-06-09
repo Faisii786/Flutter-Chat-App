@@ -42,13 +42,15 @@ class AuthServices {
   }
 
   Future saveUserMessages({
+    required String userID,
     required String message,
+    required DateTime time,
   }) async {
     try {
-      await firestore.collection('messages').doc().set({
-        'id': firebaseAuth.currentUser!.uid,
+      await firestore.collection('messages').add({
+        'id': userID,
         'message': message.toString(),
-        'time': DateTime.now(),
+        'time': time,
       });
     } catch (ex) {
       throw Exception(ex.toString());

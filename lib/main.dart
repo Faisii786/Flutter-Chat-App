@@ -25,7 +25,6 @@ class MyApp extends StatelessWidget {
           appBarTheme: AppBarTheme(
               iconTheme: const IconThemeData(color: Colors.white),
               backgroundColor: Colors.deepPurple,
-              centerTitle: true,
               titleTextStyle: GoogleFonts.acme(
                   color: Colors.white,
                   fontSize: 15,

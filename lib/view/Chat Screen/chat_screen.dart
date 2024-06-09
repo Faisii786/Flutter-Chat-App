@@ -7,7 +7,9 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key});
+  const ChatScreen({
+    super.key,
+  });
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -26,9 +28,14 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Future<void> sendMessage() async {
+    String userid = firebaseAuth.currentUser!.uid;
+    DateTime time = DateTime.now();
     try {
       await authServices.saveUserMessages(
-          message: messageController.text.toString());
+        userID: userid,
+        message: messageController.text.toString(),
+        time: time,
+      );
       messageController.clear();
     } catch (e) {
       Get.snackbar('Error', '$e');
@@ -43,6 +50,7 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Welcome'),
+        automaticallyImplyLeading: false,
         actions: [
           IconButton(
               onPressed: () async {
@@ -68,6 +76,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 child: StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
                       .collection('messages')
+                      .orderBy('time', descending: false)
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
@@ -83,8 +92,9 @@ class _ChatScreenState extends State<ChatScreen> {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 5, vertical: 5),
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment:
-                                  firebaseAuth.currentUser != null
+                                  firebaseAuth.currentUser?.uid == data['id']
                                       ? CrossAxisAlignment.end
                                       : CrossAxisAlignment.start,
                               children: [
@@ -96,7 +106,8 @@ class _ChatScreenState extends State<ChatScreen> {
                                   width: width * .5,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color: firebaseAuth.currentUser != null
+                                    color: firebaseAuth.currentUser?.uid ==
+                                            data['id']
                                         ? const Color.fromARGB(255, 39, 160, 43)
                                         : const Color.fromARGB(
                                             255, 20, 80, 129),

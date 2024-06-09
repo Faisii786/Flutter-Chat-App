@@ -2,6 +2,7 @@ import 'package:chat_app/components/button.dart';
 import 'package:chat_app/components/password_textfield.dart';
 import 'package:chat_app/components/text_field.dart';
 import 'package:chat_app/controllers/auth_services.dart';
+import 'package:chat_app/view/Chat%20Screen/chat_screen.dart';
 import 'package:chat_app/view/User%20Authentication/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -44,7 +45,7 @@ class _SignupScreenState extends State<SignupScreen> {
         emailController.clear();
         passwordController.clear();
         Get.snackbar('Success', 'Your account has been successfully created');
-        Get.to(() => const LoginScreen(),
+        Get.to(() => const ChatScreen(),
             transition: Transition.fade, duration: const Duration(seconds: 2));
       } catch (e) {
         Get.snackbar('Error', '$e');
