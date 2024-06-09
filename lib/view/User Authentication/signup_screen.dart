@@ -1,4 +1,5 @@
 import 'package:chat_app/components/button.dart';
+import 'package:chat_app/components/password_textfield.dart';
 import 'package:chat_app/components/text_field.dart';
 import 'package:chat_app/controllers/auth_services.dart';
 import 'package:chat_app/view/User%20Authentication/login_screen.dart';
@@ -68,7 +69,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 CustomtextField(
                   title: 'Name',
                   controller: nameController,
-                  icon: const Icon(Icons.person),
+                  prefixicon: const Icon(Icons.person),
                 ),
                 SizedBox(
                   height: height * 0.02,
@@ -76,15 +77,15 @@ class _SignupScreenState extends State<SignupScreen> {
                 CustomtextField(
                   title: 'Email',
                   controller: emailController,
-                  icon: const Icon(Icons.email),
+                  prefixicon: const Icon(Icons.email),
                 ),
                 SizedBox(
                   height: height * 0.02,
                 ),
-                CustomtextField(
+                PasstextField(
                   title: 'Password',
                   controller: passwordController,
-                  icon: const Icon(Icons.security),
+                  prefixicon: const Icon(Icons.lock),
                 ),
                 SizedBox(
                   height: height * 0.02,
@@ -97,19 +98,26 @@ class _SignupScreenState extends State<SignupScreen> {
                 SizedBox(
                   height: height * 0.02,
                 ),
-                Text(
-                  "Didn't have an accout ? ",
-                  style: GoogleFonts.poppins(fontSize: 14),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Get.to(() => const LoginScreen(),
-                        transition: Transition.fade,
-                        duration: const Duration(seconds: 2));
-                  },
-                  child: Text("Login",
-                      style: GoogleFonts.poppins(
-                          fontSize: 14, fontWeight: FontWeight.w500)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      "Didn't have an accout ? ",
+                      style: GoogleFonts.poppins(fontSize: 12),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Get.to(() => const LoginScreen(),
+                            transition: Transition.fade,
+                            duration: const Duration(seconds: 2));
+                      },
+                      child: Text("Login",
+                          style: GoogleFonts.poppins(
+                              color: Colors.deepPurple,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600)),
+                    )
+                  ],
                 )
               ],
             ),
